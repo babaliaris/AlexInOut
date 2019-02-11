@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace AlexInOut
 {
-    public partial class Form1 : Form
+    public partial class Editor : Form
     {
-        public Form1()
+        public Editor()
         {
             InitializeComponent();
-        }
-
-        private void register_category_picker_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
