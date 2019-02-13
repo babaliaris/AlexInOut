@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Threading;
 
 namespace AlexInOut
 {
@@ -32,6 +33,14 @@ namespace AlexInOut
             app.Rows.AutoFit();
             app.Columns.AutoFit();
 
+        }
+
+
+
+        //Run Splush Screen Function.
+        private void RunSplash()
+        {
+            Application.Run(new SplashScreen());
         }
 
 
@@ -79,9 +88,13 @@ namespace AlexInOut
                 if (path != null && path.Length > 0)
                 {
 
+                    //Create a splash screen and start it.
+                    Thread t = new Thread(new ThreadStart(RunSplash));
+                    t.Start();
+
                     wsheet.Cells[1, 1] = "Κατηγορία";
                     wsheet.Cells[1, 2] = "Τύπος";
-                    wsheet.Cells[1, 2] = "Τιμή";
+                    wsheet.Cells[1, 3] = "Τιμή";
                     wsheet.Cells[1, 4] = "Ημερομηνία";
                     wsheet.Cells[1, 6] = "Σύνολο";
 
@@ -106,7 +119,21 @@ namespace AlexInOut
                     wsheet.Cells[1, 7] = sum;
 
                     //Save the workbook.
-                    wbook.SaveAs(path);
+                    try
+                    {
+                        wbook.SaveAs(path);
+                    }
+
+
+                    //The user selected no in the replace question.
+                    catch (Exception)
+                    {
+                        t.Abort();
+                        return;
+                    }
+
+                    //Close the splash screen.
+                    t.Abort();
 
                     MessageBox.Show("Η εξαγωγή των εσόδων έγινε με επιτυχία!", "Επιτυχημένη Εξαγωγή",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -143,9 +170,12 @@ namespace AlexInOut
                 if (path != null && path.Length > 0)
                 {
 
+                    Thread t = new Thread(new ThreadStart(RunSplash));
+                    t.Start();
+
                     wsheet.Cells[1, 1] = "Κατηγορία";
                     wsheet.Cells[1, 2] = "Τύπος";
-                    wsheet.Cells[1, 2] = "Τιμή";
+                    wsheet.Cells[1, 3] = "Τιμή";
                     wsheet.Cells[1, 4] = "Ημερομηνία";
                     wsheet.Cells[1, 6] = "Σύνολο";
 
@@ -170,7 +200,20 @@ namespace AlexInOut
                     wsheet.Cells[1, 7] = sum;
 
                     //Save the workbook.
-                    wbook.SaveAs(path);
+                    try
+                    {
+                        wbook.SaveAs(path);
+                    }
+
+
+                    //The user selected no in the replace question.
+                    catch (Exception)
+                    {
+                        t.Abort();
+                        return;
+                    }
+
+                    t.Abort();
 
                     MessageBox.Show("Η εξαγωγή των εξόδων έγινε με επιτυχία!", "Επιτυχημένη Εξαγωγή",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -204,10 +247,12 @@ namespace AlexInOut
                 //If the path has been chooser correctly.
                 if (path != null && path.Length > 0)
                 {
+                    Thread t = new Thread(new ThreadStart(RunSplash));
+                    t.Start();
 
                     wsheet.Cells[1, 1] = "Κατηγορία";
                     wsheet.Cells[1, 2] = "Τύπος";
-                    wsheet.Cells[1, 2] = "Τιμή";
+                    wsheet.Cells[1, 3] = "Τιμή";
                     wsheet.Cells[1, 4] = "Ημερομηνία";
                     wsheet.Cells[1, 6] = "Σύνολο Έσοδα";
                     wsheet.Cells[2, 6] = "Σύνολο Έξοδα";
@@ -250,7 +295,20 @@ namespace AlexInOut
                     wsheet.Cells[3, 7] = in_sum - out_sum;
 
                     //Save the workbook.
-                    wbook.SaveAs(path);
+                    try
+                    {
+                        wbook.SaveAs(path);
+                    }
+
+
+                    //The user selected no in the replace question.
+                    catch (Exception)
+                    {
+                        t.Abort();
+                        return;
+                    }
+
+                    t.Abort();
 
                     MessageBox.Show("Η εξαγωγή των εσόδων-εξόδων έγινε με επιτυχία!", "Επιτυχημένη Εξαγωγή",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
