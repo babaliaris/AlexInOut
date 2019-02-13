@@ -28,13 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.εξαγωγήToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.έσοδαToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.έξοδαToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.μαζίToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.registered_date_picker = new System.Windows.Forms.DateTimePicker();
             this.register_out_radio = new System.Windows.Forms.RadioButton();
             this.register_in_radio = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,13 +57,6 @@
             this.analysis_to_picker = new System.Windows.Forms.DateTimePicker();
             this.analysis_category_chooser = new System.Windows.Forms.ComboBox();
             this.analysis_from_picker = new System.Windows.Forms.DateTimePicker();
-            this.registered_date_picker = new System.Windows.Forms.DateTimePicker();
-            this.label5 = new System.Windows.Forms.Label();
-            this.εξαγωγήToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.έσοδαToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.έξοδαToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.μαζίToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -77,6 +77,45 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // εξαγωγήToolStripMenuItem
+            // 
+            this.εξαγωγήToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.excelToolStripMenuItem});
+            this.εξαγωγήToolStripMenuItem.Name = "εξαγωγήToolStripMenuItem";
+            this.εξαγωγήToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.εξαγωγήToolStripMenuItem.Text = "Εξαγωγή";
+            // 
+            // excelToolStripMenuItem
+            // 
+            this.excelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.έσοδαToolStripMenuItem,
+            this.έξοδαToolStripMenuItem,
+            this.μαζίToolStripMenuItem});
+            this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
+            this.excelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.excelToolStripMenuItem.Text = "Excel";
+            // 
+            // έσοδαToolStripMenuItem
+            // 
+            this.έσοδαToolStripMenuItem.Name = "έσοδαToolStripMenuItem";
+            this.έσοδαToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.έσοδαToolStripMenuItem.Text = "Έσοδα";
+            this.έσοδαToolStripMenuItem.Click += new System.EventHandler(this.έσοδαToolStripMenuItem_Click);
+            // 
+            // έξοδαToolStripMenuItem
+            // 
+            this.έξοδαToolStripMenuItem.Name = "έξοδαToolStripMenuItem";
+            this.έξοδαToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.έξοδαToolStripMenuItem.Text = "Έξοδα";
+            this.έξοδαToolStripMenuItem.Click += new System.EventHandler(this.έξοδαToolStripMenuItem_Click);
+            // 
+            // μαζίToolStripMenuItem
+            // 
+            this.μαζίToolStripMenuItem.Name = "μαζίToolStripMenuItem";
+            this.μαζίToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.μαζίToolStripMenuItem.Text = "Μαζί";
+            this.μαζίToolStripMenuItem.Click += new System.EventHandler(this.μαζίToolStripMenuItem_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -89,6 +128,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(775, 410);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage2
             // 
@@ -120,6 +160,23 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Φόρμα Καταχώρησης";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label5.Location = new System.Drawing.Point(6, 51);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Ημερομηνία";
+            // 
+            // registered_date_picker
+            // 
+            this.registered_date_picker.Location = new System.Drawing.Point(6, 67);
+            this.registered_date_picker.Name = "registered_date_picker";
+            this.registered_date_picker.Size = new System.Drawing.Size(200, 20);
+            this.registered_date_picker.TabIndex = 7;
             // 
             // register_out_radio
             // 
@@ -219,16 +276,16 @@
             this.analysis_chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea5.Name = "ChartArea1";
-            this.analysis_chart.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.analysis_chart.Legends.Add(legend5);
+            chartArea8.Name = "ChartArea1";
+            this.analysis_chart.ChartAreas.Add(chartArea8);
+            legend8.Name = "Legend1";
+            this.analysis_chart.Legends.Add(legend8);
             this.analysis_chart.Location = new System.Drawing.Point(4, 52);
             this.analysis_chart.Name = "analysis_chart";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Τιμή";
-            this.analysis_chart.Series.Add(series5);
+            series8.ChartArea = "ChartArea1";
+            series8.Legend = "Legend1";
+            series8.Name = "Τιμή";
+            this.analysis_chart.Series.Add(series8);
             this.analysis_chart.Size = new System.Drawing.Size(760, 329);
             this.analysis_chart.TabIndex = 1;
             this.analysis_chart.Text = "chart1";
@@ -275,6 +332,7 @@
             this.analysis_to_picker.Name = "analysis_to_picker";
             this.analysis_to_picker.Size = new System.Drawing.Size(200, 20);
             this.analysis_to_picker.TabIndex = 3;
+            this.analysis_to_picker.ValueChanged += new System.EventHandler(this.analysis_to_picker_ValueChanged);
             // 
             // analysis_category_chooser
             // 
@@ -286,6 +344,7 @@
             this.analysis_category_chooser.Name = "analysis_category_chooser";
             this.analysis_category_chooser.Size = new System.Drawing.Size(232, 21);
             this.analysis_category_chooser.TabIndex = 1;
+            this.analysis_category_chooser.SelectedIndexChanged += new System.EventHandler(this.analysis_category_chooser_SelectedIndexChanged);
             // 
             // analysis_from_picker
             // 
@@ -294,59 +353,7 @@
             this.analysis_from_picker.Name = "analysis_from_picker";
             this.analysis_from_picker.Size = new System.Drawing.Size(200, 20);
             this.analysis_from_picker.TabIndex = 2;
-            // 
-            // registered_date_picker
-            // 
-            this.registered_date_picker.Location = new System.Drawing.Point(6, 67);
-            this.registered_date_picker.Name = "registered_date_picker";
-            this.registered_date_picker.Size = new System.Drawing.Size(200, 20);
-            this.registered_date_picker.TabIndex = 7;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label5.Location = new System.Drawing.Point(6, 51);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Ημερομηνία";
-            // 
-            // εξαγωγήToolStripMenuItem
-            // 
-            this.εξαγωγήToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.excelToolStripMenuItem});
-            this.εξαγωγήToolStripMenuItem.Name = "εξαγωγήToolStripMenuItem";
-            this.εξαγωγήToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.εξαγωγήToolStripMenuItem.Text = "Εξαγωγή";
-            // 
-            // excelToolStripMenuItem
-            // 
-            this.excelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.έσοδαToolStripMenuItem,
-            this.έξοδαToolStripMenuItem,
-            this.μαζίToolStripMenuItem});
-            this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
-            this.excelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.excelToolStripMenuItem.Text = "Excel";
-            // 
-            // έσοδαToolStripMenuItem
-            // 
-            this.έσοδαToolStripMenuItem.Name = "έσοδαToolStripMenuItem";
-            this.έσοδαToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.έσοδαToolStripMenuItem.Text = "Έσοδα";
-            // 
-            // έξοδαToolStripMenuItem
-            // 
-            this.έξοδαToolStripMenuItem.Name = "έξοδαToolStripMenuItem";
-            this.έξοδαToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.έξοδαToolStripMenuItem.Text = "Έξοδα";
-            // 
-            // μαζίToolStripMenuItem
-            // 
-            this.μαζίToolStripMenuItem.Name = "μαζίToolStripMenuItem";
-            this.μαζίToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.μαζίToolStripMenuItem.Text = "Μαζί";
+            this.analysis_from_picker.ValueChanged += new System.EventHandler(this.analysis_from_picker_ValueChanged);
             // 
             // Form1
             // 
@@ -392,7 +399,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker analysis_to_picker;
         private System.Windows.Forms.ComboBox analysis_category_chooser;
-        private System.Windows.Forms.DateTimePicker analysis_from_picker;
         private System.Windows.Forms.DataVisualization.Charting.Chart analysis_chart;
         public System.Windows.Forms.ComboBox register_category_picker;
         private System.Windows.Forms.Label label5;
@@ -402,6 +408,7 @@
         private System.Windows.Forms.ToolStripMenuItem έσοδαToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem έξοδαToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem μαζίToolStripMenuItem;
+        private System.Windows.Forms.DateTimePicker analysis_from_picker;
     }
 }
 

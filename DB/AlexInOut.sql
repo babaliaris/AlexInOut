@@ -28,7 +28,7 @@ DELIMITER $$
 CREATE PROCEDURE get_analysis(IN in_category_name CHAR(20), IN in_category_type CHAR(3), 
 							  IN in_date_from DATE, IN in_date_to DATE)
 	BEGIN
-		SELECT *, COUNT(category_name) AS amount
+		SELECT *, SUM(value_) AS total
         FROM registered
         WHERE category_name = in_category_name AND category_type = in_category_type AND
 			  (date_in BETWEEN in_date_from AND in_date_to)

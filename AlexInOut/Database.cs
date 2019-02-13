@@ -474,5 +474,152 @@ namespace AlexInOut
 
             return ok;
         }
+
+
+
+
+
+        //Get Analysis.
+        public object[] GetAnalysis(string name, string type, DateTime from, DateTime to)
+        {
+
+            //Connect to execute command.
+            if (this.Connect())
+            {
+
+                //Create the Command.
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = connection;
+
+                //Create the procedure.
+                cmd.CommandText = "get_analysis";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                //Add the parameters.
+                cmd.Parameters.AddWithValue("in_category_name", name);
+                cmd.Parameters.AddWithValue("in_category_type", type);
+                cmd.Parameters.AddWithValue("in_date_from", from);
+                cmd.Parameters.AddWithValue("in_date_to", to);
+
+
+                //Try executing the command.
+                try
+                {
+
+                    //Create an array.
+                    object[] objects = new object[2];
+                    objects[0]       = null;
+                    objects[1]       = null;
+
+                    //Execute the commant.
+                    MySqlDataReader data = cmd.ExecuteReader();
+
+                    //Read the data.
+                    while (data.Read())
+                    {
+                        Register r = new Register((string)data["category_name"], (string)data["category_type"],
+                            (decimal)data["value_"], (DateTime)data["date_in"]);
+
+                        objects[0] = r;
+                        objects[1] = data["total"];
+                    }
+
+                    data.Close();
+                    this.Close();
+
+                    return objects;
+                }
+
+
+
+                //Something wrong happened.
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Η σύνδεση στην βάση δεδομένων απέτυχε. Δοκίμασε ξάνα αργότερα.", "Σφάλμα Σύνδεσης",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+
+
+                //Something wrong happened.
+                catch (MySqlException e)
+                {
+                    //Uknown Error.
+                    this.UknownError("GetAnalysis", e.Number, e.ErrorCode, e.Code, e.Message);
+                }
+
+                //Close the connection.
+                this.Close();
+            }
+
+            return null;
+        }
+
+
+
+
+
+        //Get Category.
+        public List<Register> GetCategoriesByType(string type)
+        {
+
+            //Connect to execute command.
+            if (this.Connect())
+            {
+                //Query.
+                string q = "SELECT * FROM registered WHERE category_type = '" + type + "';";
+
+                //Create the Command.
+                MySqlCommand cmd = new MySqlCommand(q, connection);
+
+
+                //Try executing the command.
+                try
+                {
+
+                    //Create the list.
+                    List<Register> r_list = new List<Register>();  
+
+                    //Execute the commant.
+                    MySqlDataReader data = cmd.ExecuteReader();
+
+                    //Get the category.
+                    while (data.Read())
+                    {
+                        r_list.Add(new Register((string)data["category_name"], (string)data["category_type"],
+                            (decimal)data["value_"], (DateTime)data["date_in"]));
+                    }
+
+                    //Close everything.
+                    data.Close();
+                    this.Close();
+
+                    //Return the data.
+                    return r_list;
+                }
+
+
+
+                //Something wrong happened.
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Η σύνδεση στην βάση δεδομένων απέτυχε. Δοκίμασε ξάνα αργότερα.", "Σφάλμα Σύνδεσης",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+
+
+                //Something wrong happened.
+                catch (MySqlException e)
+                {
+                    this.UknownError("GetCategoriesByType", e.Number, e.ErrorCode, e.Code, e.Message);
+                }
+
+                //Close the connection.
+                this.Close();
+            }
+
+            return new List<Register>();
+        }
     }
 }

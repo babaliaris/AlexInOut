@@ -13,9 +13,13 @@ namespace AlexInOut
     public partial class Form1 : Form
     {
         private Database db;
+        private string currDir;
 
         public Form1()
         {
+
+            //Get current directory.
+            currDir = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
 
             //Initialise Graphics.
             InitializeComponent();
@@ -145,6 +149,130 @@ namespace AlexInOut
 
                 db.InsertRegister(r);
             }
+        }
+
+
+
+
+
+
+        //Tab Selected Index Changed.
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 1)
+            {
+                List<string> ins  = db.GetCategoryNames("in");
+                List<string> outs = db.GetCategoryNames("out");
+
+                analysis_category_chooser.Items.Clear();
+
+                foreach (string name in ins)
+                    analysis_category_chooser.Items.Add(name + " (Έσοδα)");
+                foreach (string name in outs)
+                    analysis_category_chooser.Items.Add(name + " (Έξοδα)");
+            }
+        }
+
+
+
+
+
+        //Show analysis.
+        private void ShowAnalysis()
+        {
+            
+            //Clear the chart.
+            analysis_chart.Series["Τιμή"].Points.Clear();
+
+            //Check if a category is selected.
+            if (analysis_category_chooser.SelectedIndex >= 0)
+            {
+
+                //Get user input.
+                string selected = (string)analysis_category_chooser.SelectedItem;
+                string type     = selected.Contains("(Έσοδα)") == true ? "in" : "out";
+                string category = selected.Replace("(Έσοδα)", "").Replace("(Έξοδα)", "");
+                DateTime from   = analysis_from_picker.Value;
+                DateTime to     = analysis_to_picker.Value;
+
+
+                //Get the analysis from the database.
+                object[] obj = db.GetAnalysis(category, type, from, to);
+
+                //If everything went smoothly and the 
+                //array has been initialised with db data.
+                if (obj != null && obj[0] != null)
+                {
+                    Register r  = (Register)obj[0];
+                    var total   = obj[1];
+
+                    int index = analysis_chart.Series["Τιμή"].Points.AddY(total);
+
+                    string offset = "          ";
+                    analysis_chart.Series["Τιμή"].Points[index].Label = offset+total.ToString().Replace(".", ",");
+                    analysis_chart.Series["Τιμή"].AxisLabel           = r.category;
+                }
+            }
+        }
+
+
+
+
+
+        //Analysis Selected Category Changed.
+        private void analysis_category_chooser_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowAnalysis();
+        }
+
+
+        //Analysis From Date Changed.
+        private void analysis_from_picker_ValueChanged(object sender, EventArgs e)
+        {
+            ShowAnalysis();
+        }
+
+
+        //Analysis to date changed.
+        private void analysis_to_picker_ValueChanged(object sender, EventArgs e)
+        {
+            ShowAnalysis();
+        }
+
+
+
+
+
+        //Export Ins.
+        private void έσοδαToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExcelHandler handler = new ExcelHandler();
+
+            handler.WriteIns(db);
+
+            handler.Close();
+        }
+
+
+        //Export outs.
+        private void έξοδαToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExcelHandler handler = new ExcelHandler();
+
+            handler.WriteOuts(db);
+
+            handler.Close();
+        }
+        
+
+        //Export Everything.
+        private void μαζίToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExcelHandler handler = new ExcelHandler();
+
+            handler.WriteEverything(db);
+
+            handler.Close();
         }
     }
 }
