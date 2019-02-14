@@ -97,6 +97,7 @@ namespace AlexInOut
                 label1.ForeColor = Color.DarkGreen;
                 label2.ForeColor = Color.DarkGreen;
                 register_submit_btn.ForeColor = Color.DarkGreen;
+                register_info_group.ForeColor = Color.DarkGreen;
             }
 
             //Out.
@@ -107,7 +108,15 @@ namespace AlexInOut
                 label1.ForeColor = Color.Red;
                 label2.ForeColor = Color.Red;
                 register_submit_btn.ForeColor = Color.Red;
+                register_info_group.ForeColor = Color.Red;
             }
+
+
+            //Clear Register Info.
+            register_info_category.Clear();
+            register_info_type.Clear();
+            register_info_price.Clear();
+            register_info_date.Clear();
         }
 
 
@@ -138,7 +147,33 @@ namespace AlexInOut
             {
                 Register r = new Register(category, "in", value, date);
 
-                db.InsertRegister(r);
+                //Try inserting the register.
+                int result = db.InsertRegister(r);
+                if (result == 1)
+                    UpdateRegisterInfo(r);
+
+
+                //Already Exists. Maybe update it?
+                else if (result == -1)
+                {
+
+                    //Get the old register.
+                    Register old = db.GetRegister("in", category, date);
+
+                    //Ask the user if he wants to replace the value.
+                    DialogResult dresult = MessageBox.Show("Υπάρχει ήδη μια καταχώρηση για την κατηγορία "
+                            + r.category + " με ημερομηνία " + r.date.ToString("dd/MM/yyyy") + "" +
+                            ". Θέλεις να αντικαταστήσεις την παλιά τιμή με την καινούρια;\n\n" +
+                            "Παλιά Τιμή: "+old.value+"\nΝέα Τιμή: "+r.value,
+                        "Αντικατάσταση;", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    //Update the Register.
+                    if (dresult == DialogResult.Yes)
+                    {
+                        if (db.UpdateRegister(r))
+                            UpdateRegisterInfo(r);
+                    }
+                }
             }
 
 
@@ -147,7 +182,32 @@ namespace AlexInOut
             {
                 Register r = new Register(category, "out", value, date);
 
-                db.InsertRegister(r);
+                //Try inserting the register.
+                int result = db.InsertRegister(r);
+                if (result == 1)
+                    UpdateRegisterInfo(r);
+
+                //Already Exists. Maybe update it?
+                else if (result == -1)
+                {
+
+                    //Get the old register.
+                    Register old = db.GetRegister("out", category, date);
+
+                    //Ask the user if he wants to replace the value.
+                    DialogResult dresult = MessageBox.Show("Υπάρχει ήδη μια καταχώρηση για την κατηγορία "
+                            + r.category + " με ημερομηνία " + r.date.ToString("dd/MM/yyyy") + "" +
+                            ". Θέλεις να αντικαταστήσεις την παλιά τιμή με την καινούρια;\n\n" +
+                            "Παλιά Τιμή: " + old.value + "\nΝέα Τιμή: " + r.value,
+                        "Αντικατάσταση;", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    //Update the Register.
+                    if (dresult == DialogResult.Yes)
+                    {
+                        if (db.UpdateRegister(r))
+                            UpdateRegisterInfo(r);
+                    }
+                }
             }
         }
 
@@ -161,15 +221,23 @@ namespace AlexInOut
         {
             if (tabControl1.SelectedIndex == 1)
             {
+
+                //Get all the Categories.
                 List<string> ins  = db.GetCategoryNames("in");
                 List<string> outs = db.GetCategoryNames("out");
 
+                //Clear the Categry Chooser.
                 analysis_category_chooser.Items.Clear();
 
+
+                //Fill The Categories to the chooser.
                 foreach (string name in ins)
                     analysis_category_chooser.Items.Add(name + " (Έσοδα)");
                 foreach (string name in outs)
                     analysis_category_chooser.Items.Add(name + " (Έξοδα)");
+
+                //Clear the chart.
+                analysis_chart.Series["Τιμή"].Points.Clear();
             }
         }
 
@@ -273,6 +341,75 @@ namespace AlexInOut
             handler.WriteEverything(db);
 
             handler.Close();
+        }
+
+
+
+        //Update Register Info.
+        private void UpdateRegisterInfo(Register r)
+        {
+
+            if (r != null)
+            {
+                register_info_category.Text = r.category;
+                register_info_type.Text = (r.type == "in" ? "ΕΣΟΔΑ" : "ΕΞΟΔΑ");
+                register_info_price.Text = r.value.ToString();
+                register_info_date.Text = r.date.ToString("dd/MM/yyyy");
+            }
+
+            else
+            {
+                register_info_category.Clear();
+                register_info_type.Clear();
+                register_info_price.Clear();
+                register_info_date.Clear();
+
+
+            }
+        }
+
+
+
+
+
+        //Register Selected Index Changed.
+        private void register_category_picker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Register r;
+
+            //In radio is selected.
+            if (register_in_radio.Checked)
+                r = db.GetRegister("in", (string)register_category_picker.SelectedItem, registered_date_picker.Value);
+
+            //Out radio is selected.
+            else
+                r = db.GetRegister("out", (string)register_category_picker.SelectedItem, registered_date_picker.Value);
+
+            //Update ragister info.
+            UpdateRegisterInfo(r);
+        }
+
+
+
+
+
+        //Register Date Picker.
+        private void registered_date_picker_ValueChanged(object sender, EventArgs e)
+        {
+            if (register_category_picker.SelectedIndex >= 0)
+            {
+                Register r;
+
+                //In radio is selected.
+                if (register_in_radio.Checked)
+                    r = db.GetRegister("in", (string)register_category_picker.SelectedItem, registered_date_picker.Value);
+
+                //Out radio is selected.
+                else
+                    r = db.GetRegister("out", (string)register_category_picker.SelectedItem, registered_date_picker.Value);
+
+                UpdateRegisterInfo(r);
+            }
         }
     }
 }

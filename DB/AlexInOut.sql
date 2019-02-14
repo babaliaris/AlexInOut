@@ -18,6 +18,7 @@ CREATE TABLE registered
     category_type CHAR(3),
     value_ DECIMAL(7, 2) NOT NULL,
     date_in DATE NOT NULL,
+    PRIMARY KEY (category_name, category_type, date_in),
     FOREIGN KEY (category_name, category_type) REFERENCES category_names (category, type_)
 );
 

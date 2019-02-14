@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.εξαγωγήToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.excelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +57,15 @@
             this.analysis_to_picker = new System.Windows.Forms.DateTimePicker();
             this.analysis_category_chooser = new System.Windows.Forms.ComboBox();
             this.analysis_from_picker = new System.Windows.Forms.DateTimePicker();
+            this.register_info_group = new System.Windows.Forms.GroupBox();
+            this.register_info_type_label = new System.Windows.Forms.Label();
+            this.register_info_price_label = new System.Windows.Forms.Label();
+            this.register_info_date_label = new System.Windows.Forms.Label();
+            this.register_info_category = new System.Windows.Forms.TextBox();
+            this.register_info_type = new System.Windows.Forms.TextBox();
+            this.register_info_price = new System.Windows.Forms.TextBox();
+            this.register_info_date = new System.Windows.Forms.TextBox();
+            this.register_info_category_label = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -65,6 +74,7 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.analysis_chart)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.register_info_group.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -92,27 +102,27 @@
             this.έξοδαToolStripMenuItem,
             this.μαζίToolStripMenuItem});
             this.excelToolStripMenuItem.Name = "excelToolStripMenuItem";
-            this.excelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.excelToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.excelToolStripMenuItem.Text = "Excel";
             // 
             // έσοδαToolStripMenuItem
             // 
             this.έσοδαToolStripMenuItem.Name = "έσοδαToolStripMenuItem";
-            this.έσοδαToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.έσοδαToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.έσοδαToolStripMenuItem.Text = "Έσοδα";
             this.έσοδαToolStripMenuItem.Click += new System.EventHandler(this.έσοδαToolStripMenuItem_Click);
             // 
             // έξοδαToolStripMenuItem
             // 
             this.έξοδαToolStripMenuItem.Name = "έξοδαToolStripMenuItem";
-            this.έξοδαToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.έξοδαToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.έξοδαToolStripMenuItem.Text = "Έξοδα";
             this.έξοδαToolStripMenuItem.Click += new System.EventHandler(this.έξοδαToolStripMenuItem_Click);
             // 
             // μαζίToolStripMenuItem
             // 
             this.μαζίToolStripMenuItem.Name = "μαζίToolStripMenuItem";
-            this.μαζίToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.μαζίToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.μαζίToolStripMenuItem.Text = "Μαζί";
             this.μαζίToolStripMenuItem.Click += new System.EventHandler(this.μαζίToolStripMenuItem_Click);
             // 
@@ -132,6 +142,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.register_info_group);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -177,6 +188,7 @@
             this.registered_date_picker.Name = "registered_date_picker";
             this.registered_date_picker.Size = new System.Drawing.Size(200, 20);
             this.registered_date_picker.TabIndex = 7;
+            this.registered_date_picker.ValueChanged += new System.EventHandler(this.registered_date_picker_ValueChanged);
             // 
             // register_out_radio
             // 
@@ -224,6 +236,7 @@
             this.register_category_picker.Name = "register_category_picker";
             this.register_category_picker.Size = new System.Drawing.Size(333, 21);
             this.register_category_picker.TabIndex = 3;
+            this.register_category_picker.SelectedIndexChanged += new System.EventHandler(this.register_category_picker_SelectedIndexChanged);
             // 
             // register_submit_btn
             // 
@@ -276,16 +289,16 @@
             this.analysis_chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea8.Name = "ChartArea1";
-            this.analysis_chart.ChartAreas.Add(chartArea8);
-            legend8.Name = "Legend1";
-            this.analysis_chart.Legends.Add(legend8);
+            chartArea3.Name = "ChartArea1";
+            this.analysis_chart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.analysis_chart.Legends.Add(legend3);
             this.analysis_chart.Location = new System.Drawing.Point(4, 52);
             this.analysis_chart.Name = "analysis_chart";
-            series8.ChartArea = "ChartArea1";
-            series8.Legend = "Legend1";
-            series8.Name = "Τιμή";
-            this.analysis_chart.Series.Add(series8);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Τιμή";
+            this.analysis_chart.Series.Add(series3);
             this.analysis_chart.Size = new System.Drawing.Size(760, 329);
             this.analysis_chart.TabIndex = 1;
             this.analysis_chart.Text = "chart1";
@@ -355,6 +368,102 @@
             this.analysis_from_picker.TabIndex = 2;
             this.analysis_from_picker.ValueChanged += new System.EventHandler(this.analysis_from_picker_ValueChanged);
             // 
+            // register_info_group
+            // 
+            this.register_info_group.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.register_info_group.Controls.Add(this.register_info_category_label);
+            this.register_info_group.Controls.Add(this.register_info_date);
+            this.register_info_group.Controls.Add(this.register_info_price);
+            this.register_info_group.Controls.Add(this.register_info_type);
+            this.register_info_group.Controls.Add(this.register_info_category);
+            this.register_info_group.Controls.Add(this.register_info_date_label);
+            this.register_info_group.Controls.Add(this.register_info_price_label);
+            this.register_info_group.Controls.Add(this.register_info_type_label);
+            this.register_info_group.ForeColor = System.Drawing.Color.DarkGreen;
+            this.register_info_group.Location = new System.Drawing.Point(6, 123);
+            this.register_info_group.Name = "register_info_group";
+            this.register_info_group.Size = new System.Drawing.Size(755, 152);
+            this.register_info_group.TabIndex = 1;
+            this.register_info_group.TabStop = false;
+            this.register_info_group.Text = "Πληροφορίες";
+            // 
+            // register_info_type_label
+            // 
+            this.register_info_type_label.AutoSize = true;
+            this.register_info_type_label.Location = new System.Drawing.Point(6, 60);
+            this.register_info_type_label.Name = "register_info_type_label";
+            this.register_info_type_label.Size = new System.Drawing.Size(37, 13);
+            this.register_info_type_label.TabIndex = 1;
+            this.register_info_type_label.Text = "Τύπος";
+            // 
+            // register_info_price_label
+            // 
+            this.register_info_price_label.AutoSize = true;
+            this.register_info_price_label.Location = new System.Drawing.Point(9, 86);
+            this.register_info_price_label.Name = "register_info_price_label";
+            this.register_info_price_label.Size = new System.Drawing.Size(28, 13);
+            this.register_info_price_label.TabIndex = 2;
+            this.register_info_price_label.Text = "Τιμή";
+            // 
+            // register_info_date_label
+            // 
+            this.register_info_date_label.AutoSize = true;
+            this.register_info_date_label.Location = new System.Drawing.Point(9, 112);
+            this.register_info_date_label.Name = "register_info_date_label";
+            this.register_info_date_label.Size = new System.Drawing.Size(66, 13);
+            this.register_info_date_label.TabIndex = 3;
+            this.register_info_date_label.Text = "Ημερομηνία";
+            // 
+            // register_info_category
+            // 
+            this.register_info_category.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.register_info_category.Location = new System.Drawing.Point(88, 31);
+            this.register_info_category.Name = "register_info_category";
+            this.register_info_category.ReadOnly = true;
+            this.register_info_category.Size = new System.Drawing.Size(661, 20);
+            this.register_info_category.TabIndex = 4;
+            // 
+            // register_info_type
+            // 
+            this.register_info_type.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.register_info_type.Location = new System.Drawing.Point(88, 57);
+            this.register_info_type.Name = "register_info_type";
+            this.register_info_type.ReadOnly = true;
+            this.register_info_type.Size = new System.Drawing.Size(661, 20);
+            this.register_info_type.TabIndex = 5;
+            // 
+            // register_info_price
+            // 
+            this.register_info_price.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.register_info_price.Location = new System.Drawing.Point(88, 83);
+            this.register_info_price.Name = "register_info_price";
+            this.register_info_price.ReadOnly = true;
+            this.register_info_price.Size = new System.Drawing.Size(661, 20);
+            this.register_info_price.TabIndex = 6;
+            // 
+            // register_info_date
+            // 
+            this.register_info_date.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.register_info_date.Location = new System.Drawing.Point(88, 109);
+            this.register_info_date.Name = "register_info_date";
+            this.register_info_date.ReadOnly = true;
+            this.register_info_date.Size = new System.Drawing.Size(661, 20);
+            this.register_info_date.TabIndex = 7;
+            // 
+            // register_info_category_label
+            // 
+            this.register_info_category_label.AutoSize = true;
+            this.register_info_category_label.Location = new System.Drawing.Point(6, 34);
+            this.register_info_category_label.Name = "register_info_category_label";
+            this.register_info_category_label.Size = new System.Drawing.Size(60, 13);
+            this.register_info_category_label.TabIndex = 8;
+            this.register_info_category_label.Text = "Κατηγορία";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -376,6 +485,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.analysis_chart)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.register_info_group.ResumeLayout(false);
+            this.register_info_group.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -409,6 +520,15 @@
         private System.Windows.Forms.ToolStripMenuItem έξοδαToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem μαζίToolStripMenuItem;
         private System.Windows.Forms.DateTimePicker analysis_from_picker;
+        private System.Windows.Forms.GroupBox register_info_group;
+        private System.Windows.Forms.TextBox register_info_date;
+        private System.Windows.Forms.TextBox register_info_price;
+        private System.Windows.Forms.TextBox register_info_type;
+        private System.Windows.Forms.TextBox register_info_category;
+        private System.Windows.Forms.Label register_info_date_label;
+        private System.Windows.Forms.Label register_info_price_label;
+        private System.Windows.Forms.Label register_info_type_label;
+        private System.Windows.Forms.Label register_info_category_label;
     }
 }
 

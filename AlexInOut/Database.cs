@@ -72,79 +72,6 @@ namespace AlexInOut
 
 
 
-        /*
-        //Insert a New product into the database.
-        public void InsertProduct(Product pd)
-        {
-
-            //Connect to execute command.
-            if (this.Connect())
-            {
-
-                //Create the Command.
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = connection;
-
-                //Create the procedure.
-                cmd.CommandText = "add_product";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-                //Add the parameters.
-                cmd.Parameters.AddWithValue("price", pd.price);
-                cmd.Parameters.AddWithValue("pr_name", pd.name);
-                cmd.Parameters.AddWithValue("sup", pd.supplier);
-                cmd.Parameters.AddWithValue("phon", pd.phone);
-                cmd.Parameters.AddWithValue("des", pd.description);
-                cmd.Parameters.AddWithValue("barc", pd.barcode);
-
-
-                //Try executing the command.
-                try
-                {
-
-                    //Execute the commant.
-                    cmd.ExecuteNonQuery();
-
-                    //Show success message.
-                    MessageBox.Show("Το προϊόν:\n\n" + pd.ToString() + "\n\n δημιουργήθηκε με επιτυχία!",
-                        "Επιτυχής Εισαγωγή", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-
-
-                //Something wrong happened.
-                catch (InvalidOperationException)
-                {
-                    MessageBox.Show("Η σύνδεση στην βάση δεδομένων απέτυχε. Δοκίμασε ξάνα αργότερα.", "Σφάλμα Σύνδεσης",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-
-
-                //Something wrong happened.
-                catch (MySqlException e)
-                {
-
-                    //Duplicate entry of product name.
-                    if (e.Number == 1062)
-                        MessageBox.Show("Το προϊόν με Όνομα: " + pd.name + " και Barcode: " + pd.barcode + ", υπάρχει ήδη.", "Υπάρχει",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    //Uknown Error.
-                    else
-                        this.UknownError("InsertProduct", e.Number, e.ErrorCode, e.Code, e.Message);
-
-                }
-
-                //Close the connection.
-                this.Close();
-            }
-        }
-        */
-
-
-
-
 
             
         //Instert Category.
@@ -410,10 +337,10 @@ namespace AlexInOut
 
 
         //Insert Register.
-        public bool InsertRegister(Register register)
+        public int InsertRegister(Register register)
         {
 
-            bool ok = false;
+            int ok = 0;
 
             //Connect to execute command.
             if (this.Connect())
@@ -431,7 +358,7 @@ namespace AlexInOut
                 {
 
                     DialogResult result = MessageBox.Show("Θέλεις σίγουρα να προσθέσεις " + register.value +
-                        " ευρό στην κατηγορία " + register.category + "(" + (register.type == "in" ? "Έσοδα" : "Έξοδα") + ") " +
+                        " ευρώ στην κατηγορία " + register.category + "(" + (register.type == "in" ? "Έσοδα" : "Έξοδα") + ") " +
                         " με ημερομηνία " + register.date.ToString("dd/MM/yyyy") + ";", 
                         "Είσαι Σίγουρος;", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -446,7 +373,75 @@ namespace AlexInOut
                         MessageBox.Show("Το Ποσό " + register.value + ", προστέθηκε με επιτυχία για την κατηγορία " + 
                             register.category + " , με ημερομηνία " + register.date.ToString("dd/MM/yyyy"),
                             "Επιτυχής Εισαγωγή", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        ok = 1;
                     }
+
+                }
+
+
+
+                //Something wrong happened.
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Η σύνδεση στην βάση δεδομένων απέτυχε. Δοκίμασε ξάνα αργότερα.", "Σφάλμα Σύνδεσης",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+
+
+                //Something wrong happened.
+                catch (MySqlException e)
+                {
+
+                    //Duplicate Entry.
+                    if (e.Number == 1062)
+                        ok = -1;
+
+                    //Uknown Error.
+                    else
+                        this.UknownError("InsertRegister", e.Number, e.ErrorCode, e.Code, e.Message);
+                }
+
+                //Close the connection.
+                this.Close();
+            }
+
+            return ok;
+        }
+
+
+
+
+
+        //Update Register.
+        public bool UpdateRegister(Register register)
+        {
+
+            bool ok = false;
+
+            //Connect to execute command.
+            if (this.Connect())
+            {
+                //Query.
+                string q = "UPDATE registered SET value_ = " + register.value.ToString().Replace(",", ".")
+                    + " WHERE category_type = '"+register.type+"' AND category_name = '"+register.category
+                    + "' AND date_in = '"+register.date.ToString("yyyy/MM/dd")+"';";
+
+                //Create the Command.
+                MySqlCommand cmd = new MySqlCommand(q, connection);
+
+
+                //Try executing the command.
+                try
+                {
+                    //Execute the commant.
+                    cmd.ExecuteNonQuery();
+
+                    //Show success message.
+                    MessageBox.Show("Το Ποσό " + register.value + ", προστέθηκε με επιτυχία για την κατηγορία " +
+                        register.category + " , με ημερομηνία " + register.date.ToString("dd/MM/yyyy"),
+                        "Επιτυχής Εισαγωγή", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     ok = true;
                 }
@@ -465,7 +460,7 @@ namespace AlexInOut
                 //Something wrong happened.
                 catch (MySqlException e)
                 {
-                    this.UknownError("InsertRegister", e.Number, e.ErrorCode, e.Code, e.Message);
+                    this.UknownError("UpdateRegister", e.Number, e.ErrorCode, e.Code, e.Message);
                 }
 
                 //Close the connection.
@@ -620,6 +615,71 @@ namespace AlexInOut
             }
 
             return new List<Register>();
+        }
+
+
+
+
+
+        //Get Register.
+        public Register GetRegister(string type, string category, DateTime date)
+        {
+
+            //Connect to execute command.
+            if (this.Connect())
+            {
+                //Query.
+                string q = "SELECT * FROM registered WHERE category_type = '" + type + "' " +
+                    "AND category_name = '"+category+"' AND date_in = '"+date.ToString("yyyy/MM/dd")+"';";
+
+                //Create the Command.
+                MySqlCommand cmd = new MySqlCommand(q, connection);
+
+
+                //Try executing the command.
+                try
+                {
+
+                    Register register = null;
+
+                    //Execute the commant.
+                    MySqlDataReader data = cmd.ExecuteReader();
+
+                    //Get the category.
+                    while (data.Read())
+                        register = new Register((string)data["category_name"], (string)data["category_type"],
+                            (decimal)data["value_"], (DateTime)data["date_in"]);
+
+                    //Close everything.
+                    data.Close();
+                    this.Close();
+
+                    //Return the data.
+                    return register;
+                }
+
+
+
+                //Something wrong happened.
+                catch (InvalidOperationException)
+                {
+                    MessageBox.Show("Η σύνδεση στην βάση δεδομένων απέτυχε. Δοκίμασε ξάνα αργότερα.", "Σφάλμα Σύνδεσης",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+
+
+                //Something wrong happened.
+                catch (MySqlException e)
+                {
+                    this.UknownError("GetRegister", e.Number, e.ErrorCode, e.Code, e.Message);
+                }
+
+                //Close the connection.
+                this.Close();
+            }
+
+            return null;
         }
     }
 }
